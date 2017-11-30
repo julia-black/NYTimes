@@ -1,0 +1,8 @@
+module main:
+  HomePageActivity - главная активити, на ней ссылки на Books и TopStories
+  BooksActivity - имеет ListView со списком книг, которые получает из api.App
+  TopStoriesActivity - имеет ListView со списком новостей, который получает из api.App
+module api:
+  BooksApi - интерфейс, который через Retrofit получает api для получения списка книг
+  TopStoriesApi - интерфейс, который через Retrofit получает api для получения топ-историй
+  App - класс, который наследуется от Application, в котором мы получаем доступ к Retrofit и обратаываем запросы
