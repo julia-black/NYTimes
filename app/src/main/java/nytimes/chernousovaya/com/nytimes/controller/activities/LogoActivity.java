@@ -1,4 +1,4 @@
-package nytimes.chernousovaya.com.nytimes.controller;
+package nytimes.chernousovaya.com.nytimes.controller.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +18,7 @@ public class LogoActivity extends Activity {
                         sleep(100);
                         logoTimer = logoTimer + 100;
                     }
-                    toNewsListActivity();
+                    toHomePageActivity();
                 }
                 catch (InterruptedException e){
                     e.printStackTrace();
@@ -30,7 +30,7 @@ public class LogoActivity extends Activity {
         };
         logoTimer.start();
     }
-    public void toNewsListActivity(){
+    public void toHomePageActivity(){
         Intent intent = new Intent(LogoActivity.this, HomePageActivity.class);
         startActivity(intent);
     }

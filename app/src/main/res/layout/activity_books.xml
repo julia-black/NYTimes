@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nytimes.chernousovaya.com.nytimes.controller.HomePageActivity"
+    tools:context="nytimes.chernousovaya.com.nytimes.controller.activities.BooksActivity"
     android:orientation="vertical" >
 
     <android.support.v7.widget.Toolbar
@@ -19,11 +19,18 @@
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="8dp"/>
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
-        android:text="Text"/>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/books_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <fragment
+            android:id="@+id/news_list_fragment"
+            android:name="nytimes.chernousovaya.com.nytimes.controller.fragments.SectionsBooksFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
 </LinearLayout>

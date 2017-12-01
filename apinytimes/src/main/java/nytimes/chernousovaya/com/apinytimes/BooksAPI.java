@@ -1,24 +1,85 @@
 package nytimes.chernousovaya.com.apinytimes;
 
+import android.os.StrictMode;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import nytimes.chernousovaya.com.apinytimes.model.BookDetail;
+import nytimes.chernousovaya.com.apinytimes.model.ListBooks;
+import nytimes.chernousovaya.com.apinytimes.model.NameBooks;
+import nytimes.chernousovaya.com.apinytimes.model.Result;
+import nytimes.chernousovaya.com.apinytimes.model.RootObject;
+import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BooksAPI {
-   // private final String URL = "http://api.nytimes.com/svc/books/{version}/lists";
-//
-   // private Gson gson = new GsonBuilder().create();
-//
-   // private Retrofit retrofit = new Retrofit.Builder()
-   //         .addConverterFactory(GsonConverterFactory.create(gson))
-   //         .baseUrl(URL)
-   //         .build();
-//
-   // private Link intf = retrofit.create(Link.class);
-//
-   // public BooksAPI() {
-//
-   // }
+
+    private static final String LOG = "BooksAPI";
+    private static final String KEY = "ba4175181f1f48fb8205a2148f567c88";
+    private static final String URL = "http://api.nytimes.com/svc/books/v3/";
+
+    private Gson mGson = new GsonBuilder().create();
+
+    private Retrofit mRetrofit = new Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create(mGson))
+            .baseUrl(URL)
+            .build();
+    private RootObject mRootObject;
+
+    private NYTimes mNYTimes = mRetrofit.create(NYTimes.class);
+
+    public BooksAPI() {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        mRootObject = getRootObject();
+        if(mRootObject.getNamesBooks().size() != 0) {
+            List<Result> list = getListBooksByName(mRootObject.getNamesBooks().get(0).getListName());
+            Log.i(LOG, list.get(0).getBook_details().get(0).getTitle());
+        }
+    }
+
+    public RootObject getRootObject(){
+        Call<RootObject> call = mNYTimes.getNames(KEY);
+        Response<RootObject> response;
+        RootObject obj = null;
+        try {
+            response = call.execute();
+            obj = response.body();
+            Log.i(LOG, obj.getNamesBooks().size() +"");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    //Получить наименования групп книг
+    public List<NameBooks> getNamesBooks(){
+        return mRootObject.getNamesBooks();
+    }
+
+    public List<Result> getListBooksByName(String nameOfList) {
+        Call<ListBooks> call = mNYTimes.getListBooksByName(KEY, nameOfList);
+        Response<ListBooks> response;
+        ListBooks obj = null;
+        try {
+            response = call.execute();
+            obj = response.body();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return obj.getResults();
+    }
+
 }

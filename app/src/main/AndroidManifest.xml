@@ -11,16 +11,19 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.LogoActivity">
+        <activity android:name=".controller.activities.LogoActivity"
+            android:screenOrientation="reversePortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.HomePageActivity">
+        <activity android:name=".controller.activities.HomePageActivity"
+            android:screenOrientation="reversePortrait">
         </activity>
-        <activity android:name=".controller.BooksActivity">
+        <activity android:name=".controller.activities.BooksActivity"
+            android:screenOrientation="reversePortrait">
         </activity>
     </application>
 
