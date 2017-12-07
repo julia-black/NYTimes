@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -46,23 +47,11 @@ public class ListBooksFragment extends Fragment {
 
         mNameOfSection = getArguments().getString("nameOfSection", "");
 
-        BookItemAdapter bookItemAdapter = new BookItemAdapter(this.getActivity(), getListBooksfromAPI());
+        List<Book> listBooks = getListBooksfromAPI();
+        BookItemAdapter bookItemAdapter = new BookItemAdapter(this.getActivity(),listBooks);
 
         ListView listView = view.findViewById(R.id.list_books);
         listView.setAdapter(bookItemAdapter);
-
-        // listView.setAdapter(adapter);
-
-     //  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-     //      @Override
-     //      public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
-     //                              long id) {
-     //          SectionsBooksFragment.Listener l = (SectionsBooksFragment.Listener) getActivity();
-     //          l.onSectionClicked(mNameOfSection);
-     //         // Toast.makeText(getActivity().getApplicationContext(), ((TextView) itemClicked).getText(),
-     //         //         Toast.LENGTH_SHORT).show();
-     //      }
-     //  });
 
         return view;
 
@@ -90,7 +79,6 @@ public class ListBooksFragment extends Fragment {
             BookDetail bookDetail = result.getBook_details().get(0);
             newBook.setmTitle(bookDetail.getTitle());
             newBook.setmAuthor(bookDetail.getAuthor());
-           // newBook.setmAgeGroup(bookDetail.getAgeGroup());
             newBook.setmContributor(bookDetail.getContributor());
             newBook.setmDescription(bookDetail.getDescription());
             newBook.setmPublisher(bookDetail.getPublisher());

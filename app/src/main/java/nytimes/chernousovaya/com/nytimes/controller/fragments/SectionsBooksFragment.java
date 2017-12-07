@@ -48,8 +48,7 @@ public class SectionsBooksFragment extends Fragment {
                     SectionsBooksFragment.Listener l = (SectionsBooksFragment.Listener) getActivity();
                     l.onSectionClicked(getSections().get(position));
                 });
-                //Toast.makeText(getActivity().getApplicationContext(), ((TextView) itemClicked).getText(),
-               // Toast.LENGTH_SHORT).show());
+
 
         return view;
     }

@@ -3,6 +3,7 @@ package nytimes.chernousovaya.com.nytimes.controller.activities;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -19,10 +20,11 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import nytimes.chernousovaya.com.nytimes.R;
+import nytimes.chernousovaya.com.nytimes.controller.adapters.BookItemAdapter;
 import nytimes.chernousovaya.com.nytimes.controller.fragments.ListBooksFragment;
 import nytimes.chernousovaya.com.nytimes.controller.fragments.SectionsBooksFragment;
 
-public class BooksActivity extends AppCompatActivity implements SectionsBooksFragment.Listener{
+public class BooksActivity extends AppCompatActivity implements SectionsBooksFragment.Listener, BookItemAdapter.Listener{
 
     private Drawer.Result mDrawerResult;
 
@@ -110,4 +112,11 @@ public class BooksActivity extends AppCompatActivity implements SectionsBooksFra
                  .commit();
 
      }
+
+    @Override
+    public void onAmazonClicked(String url) {
+        Uri address = Uri.parse(url);
+        Intent openlinkIntent = new Intent(Intent.ACTION_VIEW, address);
+        startActivity(openlinkIntent);
+    }
 }

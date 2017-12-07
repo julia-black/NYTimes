@@ -24,6 +24,10 @@ public class BookItemAdapter extends BaseAdapter {
     private final Context mContext;
     private final LayoutInflater mInflater;
 
+    public interface Listener{
+        public void onAmazonClicked(String url);
+    }
+
 
 
     public BookItemAdapter(Context context, List<Book> data) {
@@ -55,9 +59,8 @@ public class BookItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Book book = (Book) getItem(i);
+        Book book = getItem(i);
         ViewHolder holder;
-        //View v;
         //если эта View никогда не использовалась
         if (view == null) {
             view = mInflater.inflate(R.layout.item_book, null);
@@ -69,14 +72,16 @@ public class BookItemAdapter extends BaseAdapter {
             holder.mUrlView = view.findViewById(R.id.url);
             view.setTag(holder);
         } else {
-           // v = view;
             holder = (ViewHolder) view.getTag();
         }
-        //ViewHolder holder = (ViewHolder) v.getTag();
         holder.mTitleView.setText(book.getmTitle());
         holder.mDescriptionView.setText(book.getmDescription());
       //  holder.mUrlView.setText(book.getmUrl());
 
+        holder.mUrlView.setOnClickListener(view1 -> {
+            Listener listener = (Listener) mContext;
+            listener.onAmazonClicked(book.getmUrl());
+        });
         holder.mAuthorView.setText(book.getmAuthor());
        // Log.i(LOG, book.getmTitle());
 
