@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <TextView
     android:pointerIcon="alias"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,7 +8,4 @@
     android:textColor="@color/colorPrimaryDark"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:drawableLeft="@drawable/ic_label_black_18dp"
-    android:drawablePadding="10dp"
-    >
-</TextView>
-
+    android:drawablePadding="10dp"></TextView>

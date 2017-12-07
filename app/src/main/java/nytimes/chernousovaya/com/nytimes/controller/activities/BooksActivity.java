@@ -7,30 +7,22 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
-import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
-import java.util.List;
-
-import nytimes.chernousovaya.com.apinytimes.BooksAPI;
 import nytimes.chernousovaya.com.nytimes.R;
+import nytimes.chernousovaya.com.nytimes.controller.fragments.ListBooksFragment;
 import nytimes.chernousovaya.com.nytimes.controller.fragments.SectionsBooksFragment;
 
-public class BooksActivity extends AppCompatActivity {
+public class BooksActivity extends AppCompatActivity implements SectionsBooksFragment.Listener{
 
     private Drawer.Result mDrawerResult;
 
@@ -51,18 +43,25 @@ public class BooksActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .withHeader(R.layout.drawer_header)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.home_page).withIcon(FontAwesome.Icon.faw_home).withIdentifier(0),
-                        new PrimaryDrawerItem().withName(R.string.books).withIcon(FontAwesome.Icon.faw_book).withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.top_stories).withIcon(FontAwesome.Icon.faw_bookmark).withIdentifier(2),
+                        new PrimaryDrawerItem().withName(R.string.home_page)
+                                .withIcon(FontAwesome.Icon.faw_home).withIdentifier(0),
+                        new PrimaryDrawerItem().withName(R.string.books)
+                                .withIcon(FontAwesome.Icon.faw_book).withIdentifier(1),
+                        new PrimaryDrawerItem().withName(R.string.top_stories)
+                                .withIcon(FontAwesome.Icon.faw_bookmark).withIdentifier(2),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName(R.string.setting).withIcon(FontAwesome.Icon.faw_cog).withIdentifier(3)
+                        new PrimaryDrawerItem().withName(R.string.setting)
+                                .withIcon(FontAwesome.Icon.faw_cog).withIdentifier(3)
 
                 )
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View drawerView) {
-                        InputMethodManager inputMethodManager = (InputMethodManager)BooksActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(BooksActivity.this.getCurrentFocus().getWindowToken(), 0);
+                        InputMethodManager inputMethodManager =
+                                (InputMethodManager)BooksActivity.this.getSystemService
+                                        (Activity.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(BooksActivity.this.
+                                getCurrentFocus().getWindowToken(), 0);
                     }
 
                     @Override
@@ -101,4 +100,14 @@ public class BooksActivity extends AppCompatActivity {
         }
     }
 
+     @Override
+     public void onSectionClicked(String nameOfSection) {
+         ListBooksFragment listBooksFragment = ListBooksFragment.newInstance(nameOfSection);
+         Log.i(LOG, nameOfSection);
+
+         getFragmentManager().beginTransaction()
+                 .replace(R.id.books_container,listBooksFragment)
+                 .commit();
+
+     }
 }

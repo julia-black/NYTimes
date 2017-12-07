@@ -4,10 +4,6 @@ public class BookDetail
 {
     private String title;
 
-    public String getTitle() { return this.title; }
-
-    public void setTitle(String title) { this.title = title; }
-
     private String description;
 
     private String contributor;
@@ -63,4 +59,7 @@ public class BookDetail
 
     public void setPrimaryIsbn13(String primary_isbn13) { this.primary_isbn13 = primary_isbn13; }
 
+    public String getTitle() { return this.title; }
+
+    public void setTitle(String title) { this.title = title; }
 }

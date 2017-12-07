@@ -7,21 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import nytimes.chernousovaya.com.apinytimes.BooksAPI;
 import nytimes.chernousovaya.com.apinytimes.model.NameBooks;
 import nytimes.chernousovaya.com.nytimes.R;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SectionsBooksFragment extends Fragment {
 
+
     private BooksAPI mBooksAPI;
+
+    public interface Listener {
+        void onSectionClicked(String sectionName);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,17 +40,16 @@ public class SectionsBooksFragment extends Fragment {
         ListView listView = view.findViewById(R.id.list_sections);
 
         final ArrayList<String> sections = getSections();
-        ArrayAdapter<String> adapter = new ArrayAdapter(this.getActivity(),R.layout.section, sections);
+        ArrayAdapter adapter = new ArrayAdapter(this.getActivity(),R.layout.section, sections);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
-                                    long id) {
-                Toast.makeText(getActivity().getApplicationContext(), ((TextView) itemClicked).getText(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        listView.setOnItemClickListener((parent, itemClicked, position, id) ->
+                {
+                    SectionsBooksFragment.Listener l = (SectionsBooksFragment.Listener) getActivity();
+                    l.onSectionClicked(getSections().get(position));
+                });
+                //Toast.makeText(getActivity().getApplicationContext(), ((TextView) itemClicked).getText(),
+               // Toast.LENGTH_SHORT).show());
 
         return view;
     }
@@ -59,5 +63,4 @@ public class SectionsBooksFragment extends Fragment {
         return  sections;
 
     }
-
 }

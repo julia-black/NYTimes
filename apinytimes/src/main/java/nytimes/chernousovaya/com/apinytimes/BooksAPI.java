@@ -5,14 +5,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import nytimes.chernousovaya.com.apinytimes.model.BookDetail;
 import nytimes.chernousovaya.com.apinytimes.model.ListBooks;
 import nytimes.chernousovaya.com.apinytimes.model.NameBooks;
 import nytimes.chernousovaya.com.apinytimes.model.Result;
@@ -21,6 +13,9 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.io.IOException;;
+import java.util.List;
 
 public class BooksAPI {
 
@@ -42,10 +37,10 @@ public class BooksAPI {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         mRootObject = getRootObject();
-        if(mRootObject.getNamesBooks().size() != 0) {
-            List<Result> list = getListBooksByName(mRootObject.getNamesBooks().get(0).getListName());
-            Log.i(LOG, list.get(0).getBook_details().get(0).getTitle());
-        }
+       // if(mRootObject.getNamesBooks().size() != 0) {
+       //     List<Result> list = getListBooksByName(mRootObject.getNamesBooks().get(0).getListName());
+       //    // Log.i(LOG, list.get(0).getBook_details().get(0).getTitle());
+       // }
     }
 
     public RootObject getRootObject(){
@@ -55,7 +50,7 @@ public class BooksAPI {
         try {
             response = call.execute();
             obj = response.body();
-            Log.i(LOG, obj.getNamesBooks().size() +"");
+           // Log.i(LOG, obj.getNamesBooks().size() +"");
 
         } catch (IOException e) {
             e.printStackTrace();

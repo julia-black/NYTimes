@@ -18,7 +18,6 @@ public class Result
 
     private int weeks_on_list;
 
-
     private int asterisk;
 
     private int dagger;
