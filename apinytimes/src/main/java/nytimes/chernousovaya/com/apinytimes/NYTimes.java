@@ -10,7 +10,7 @@ public interface NYTimes {
     @GET("lists/names.json")
     Call<RootObject> getNames(@Query("api-key") String apiKey);
 
-   @GET("lists.json")
+    @GET("lists.json")
     Call<ListBooks> getListBooksByName(@Query("api-key") String apiKey, @Query("list") String list);
 }
 

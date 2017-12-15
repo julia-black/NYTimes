@@ -1,6 +1,5 @@
 package nytimes.chernousovaya.com.nytimes.model;
 
-
 public class Book {
 
     private String mTitle;
@@ -10,7 +9,6 @@ public class Book {
     private String mContributor;
 
     private String mAuthor;
-
 
     private String mPublisher;
 

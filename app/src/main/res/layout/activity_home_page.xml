@@ -47,5 +47,4 @@
         app:layout_constraintTop_toTopOf="parent"
         android:drawableLeft="@drawable/ic_story_24dp"
         android:drawablePadding="10dp"/>
-
 </LinearLayout>

@@ -9,21 +9,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.mikepenz.iconics.typeface.FontAwesome;
+import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import nytimes.chernousovaya.com.nytimes.R;
 
 
 public class HomePageActivity extends AppCompatActivity {
 
+    private static final String LOG = "HomePageActivity";
     private Drawer.Result mDrawerResult;
+    //private ArrayList<String> nameBooksList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,6 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
         setDrawer();
         setClickListeners();
-
     }
 
     @Override
@@ -45,38 +44,30 @@ public class HomePageActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    //    getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-       // if (id == R.id.action_settings) {
-       //     return true;
-       // }
         return super.onOptionsItemSelected(item);
     }
 
-    private void toBooksActivity(){
+    private void toBooksActivity() {
         Intent intent = new Intent(HomePageActivity.this, BooksActivity.class);
         startActivity(intent);
     }
 
-    private void setClickListeners(){
-
-        TextView v = (TextView) findViewById(R.id.books);
-        v.setOnClickListener( new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                toBooksActivity();
-
-            }
-        });
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
-    private void setDrawer(){
+    private void setClickListeners() {
+        TextView v = (TextView) findViewById(R.id.books);
+        v.setOnClickListener(view -> toBooksActivity());
+    }
+
+    private void setDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -109,19 +100,13 @@ public class HomePageActivity extends AppCompatActivity {
                     public void onDrawerClosed(View drawerView) {
                     }
                 })
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                .withOnDrawerItemClickListener((parent, view, position, id, drawerItem) -> {
 
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id, IDrawerItem drawerItem) {
-
-                        if(drawerItem.getIdentifier() == 1){
-                            toBooksActivity();
-                        }
+                    if (drawerItem.getIdentifier() == 1) {
+                        toBooksActivity();
                     }
                 })
                 .build();
-
     }
 
 }

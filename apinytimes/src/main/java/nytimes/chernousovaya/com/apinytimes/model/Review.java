@@ -1,28 +1,50 @@
 package nytimes.chernousovaya.com.apinytimes.model;
 
-public class Review
-{
-    private String book_review_link;
+import com.google.gson.annotations.SerializedName;
 
-    public String getBookReviewLink() { return this.book_review_link; }
+public class Review {
+    @SerializedName("book_review_link")
+    private String bookReviewLink;
 
-    public void setBookReviewLink(String book_review_link) { this.book_review_link = book_review_link; }
+    @SerializedName("first_chapter_link")
+    private String firstChapterLink;
 
-    private String first_chapter_link;
+    @SerializedName("sunday_review_link")
+    private String sundayReviewLink;
 
-    public String getFirstChapterLink() { return this.first_chapter_link; }
+    @SerializedName("article_chapter_link")
+    private String articleChapterLink;
 
-    public void setFirstChapterLink(String first_chapter_link) { this.first_chapter_link = first_chapter_link; }
+    public String getArticleChapterLink() {
+        return this.articleChapterLink;
+    }
 
-    private String sunday_review_link;
+    public void setArticleChapterLink(String articleChapterLink) {
+        this.articleChapterLink = articleChapterLink;
+    }
 
-    public String getSundayReviewLink() { return this.sunday_review_link; }
 
-    public void setSundayReviewLink(String sunday_review_link) { this.sunday_review_link = sunday_review_link; }
+    public String getBookReviewLink() {
+        return this.bookReviewLink;
+    }
 
-    private String article_chapter_link;
+    public void setBookReviewLink(String bookReviewLink) {
+        this.bookReviewLink = bookReviewLink;
+    }
 
-    public String getArticleChapterLink() { return this.article_chapter_link; }
+    public String getFirstChapterLink() {
+        return this.firstChapterLink;
+    }
 
-    public void setArticleChapterLink(String article_chapter_link) { this.article_chapter_link = article_chapter_link; }
+    public void setFirstChapterLink(String firstChapterLink) {
+        this.firstChapterLink = firstChapterLink;
+    }
+
+    public String getSundayReviewLink() {
+        return this.sundayReviewLink;
+    }
+
+    public void setSundayReviewLink(String sundayReviewLink) {
+        this.sundayReviewLink = sundayReviewLink;
+    }
 }

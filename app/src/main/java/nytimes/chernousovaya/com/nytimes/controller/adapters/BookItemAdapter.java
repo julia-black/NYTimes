@@ -1,7 +1,6 @@
 package nytimes.chernousovaya.com.nytimes.controller.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,6 @@ import java.util.List;
 import nytimes.chernousovaya.com.nytimes.R;
 import nytimes.chernousovaya.com.nytimes.model.Book;
 
-/**
- *
- */
-
 public class BookItemAdapter extends BaseAdapter {
 
     private static final String LOG = "BookItemAdapter";
@@ -24,18 +19,14 @@ public class BookItemAdapter extends BaseAdapter {
     private final Context mContext;
     private final LayoutInflater mInflater;
 
-    public interface Listener{
-        public void onAmazonClicked(String url);
+    public interface Listener {
+        void onAmazonClicked(String url);
     }
-
-
 
     public BookItemAdapter(Context context, List<Book> data) {
         this.mContext = context;
         this.mListBooks = data;
         this.mInflater = LayoutInflater.from(context);
-        //this.mInflater = (LayoutInflater) context
-        //        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -53,18 +44,12 @@ public class BookItemAdapter extends BaseAdapter {
         return i;
     }
 
-    Book getData(int position){
-        return (Book)(getItem(position));
-    }
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         Book book = getItem(i);
         ViewHolder holder;
-        //если эта View никогда не использовалась
         if (view == null) {
             view = mInflater.inflate(R.layout.item_book, null);
-          //  view = mInflater.inflate(R.layout.item_book, viewGroup, false);
             holder = new ViewHolder();
             holder.mTitleView = view.findViewById(R.id.title);
             holder.mAuthorView = view.findViewById(R.id.author);
@@ -76,14 +61,12 @@ public class BookItemAdapter extends BaseAdapter {
         }
         holder.mTitleView.setText(book.getmTitle());
         holder.mDescriptionView.setText(book.getmDescription());
-      //  holder.mUrlView.setText(book.getmUrl());
 
         holder.mUrlView.setOnClickListener(view1 -> {
             Listener listener = (Listener) mContext;
             listener.onAmazonClicked(book.getmUrl());
         });
         holder.mAuthorView.setText(book.getmAuthor());
-       // Log.i(LOG, book.getmTitle());
 
         return view;
     }

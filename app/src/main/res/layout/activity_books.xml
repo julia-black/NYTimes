@@ -25,12 +25,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <fragment
-            android:id="@+id/news_list_fragment"
-            android:name="nytimes.chernousovaya.com.nytimes.controller.fragments.SectionsBooksFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </fragment>
     </FrameLayout>
 
 </LinearLayout>

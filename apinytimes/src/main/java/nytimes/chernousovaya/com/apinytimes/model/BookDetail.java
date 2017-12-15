@@ -1,7 +1,9 @@
 package nytimes.chernousovaya.com.apinytimes.model;
 
-public class BookDetail
-{
+import com.google.gson.annotations.SerializedName;
+
+public class BookDetail {
+
     private String title;
 
     private String description;
@@ -10,56 +12,100 @@ public class BookDetail
 
     private String author;
 
-    private String contributor_note;
+    @SerializedName("contributor_note")
+    private String contributorNote;
 
     private int price;
 
-    private String age_group;
+    @SerializedName("age_group")
+    private String ageGroup;
 
     private String publisher;
 
-    private String primary_isbn13;
+    @SerializedName("primary_isbn13")
+    private String primaryIsbn13;
 
-    private String primary_isbn10;
+    @SerializedName("primary_isbn10")
+    private String primaryIsbn10;
 
-    public String getDescription() { return this.description; }
+    public String getDescription() {
+        return this.description;
+    }
 
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public String getPrimaryIsbn10() { return this.primary_isbn10; }
+    public String getPrimaryIsbn10() {
+        return this.primaryIsbn10;
+    }
 
-    public void setPrimaryIsbn10(String primary_isbn10) { this.primary_isbn10 = primary_isbn10; }
+    public void setPrimaryIsbn10(String primaryIsbn10) {
+        this.primaryIsbn10 = primaryIsbn10;
+    }
 
-    public String getContributor() { return this.contributor; }
+    public String getContributor() {
+        return this.contributor;
+    }
 
-    public void setContributor(String contributor) { this.contributor = contributor; }
+    public void setContributor(String contributor) {
+        this.contributor = contributor;
+    }
 
-    public String getAuthor() { return this.author; }
+    public String getAuthor() {
+        return this.author;
+    }
 
-    public void setAuthor(String author) { this.author = author; }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-    public String getContributorNote() { return this.contributor_note; }
+    public String getContributorNote() {
+        return this.contributorNote;
+    }
 
-    public void setContributorNote(String contributor_note) { this.contributor_note = contributor_note; }
+    public void setContributorNote(String contributorNote) {
+        this.contributorNote = contributorNote;
+    }
 
-    public int getPrice() { return this.price; }
+    public int getPrice() {
+        return this.price;
+    }
 
-    public void setPrice(int price) { this.price = price; }
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
 
-    public String getAgeGroup() { return this.age_group; }
+    public String getAgeGroup() {
+        return this.ageGroup;
+    }
 
-    public void setAgeGroup(String age_group) { this.age_group = age_group; }
+    public void setAgeGroup(String ageGroup) {
+        this.ageGroup = ageGroup;
+    }
 
-    public String getPublisher() { return this.publisher; }
+    public String getPublisher() {
+        return this.publisher;
+    }
 
-    public void setPublisher(String publisher) { this.publisher = publisher; }
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
 
-    public String getPrimaryIsbn13() { return this.primary_isbn13; }
+    public String getPrimaryIsbn13() {
+        return this.primaryIsbn13;
+    }
 
-    public void setPrimaryIsbn13(String primary_isbn13) { this.primary_isbn13 = primary_isbn13; }
+    public void setPrimaryIsbn13(String primaryIsbn13) {
+        this.primaryIsbn13 = primaryIsbn13;
+    }
 
-    public String getTitle() { return this.title; }
+    public String getTitle() {
+        return this.title;
+    }
 
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

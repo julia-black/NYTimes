@@ -5,24 +5,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.List;
 
 import nytimes.chernousovaya.com.apinytimes.BooksAPI;
-import nytimes.chernousovaya.com.apinytimes.model.NameBooks;
 import nytimes.chernousovaya.com.nytimes.R;
+import nytimes.chernousovaya.com.nytimes.controller.activities.BooksActivity;
 
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SectionsBooksFragment extends Fragment {
 
-
-    private BooksAPI mBooksAPI;
+    private static final String LOG = "SectionsBooksFragment";
+    private static BooksAPI mBooksAPI;
+    private static List<String> mSections;
 
     public interface Listener {
         void onSectionClicked(String sectionName);
@@ -31,35 +28,28 @@ public class SectionsBooksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         mBooksAPI = new BooksAPI();
-
         View view = inflater.inflate(R.layout.sections_fragment,
                 container, false);
 
         ListView listView = view.findViewById(R.id.list_sections);
+        ArrayAdapter adapter;
 
-        final ArrayList<String> sections = getSections();
-        ArrayAdapter adapter = new ArrayAdapter(this.getActivity(),R.layout.section, sections);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mSections = BooksActivity.getSections();
+        adapter = new ArrayAdapter(this.getActivity(), R.layout.section, mSections);
+
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, itemClicked, position, id) ->
-                {
-                    SectionsBooksFragment.Listener l = (SectionsBooksFragment.Listener) getActivity();
-                    l.onSectionClicked(getSections().get(position));
-                });
-
-
+        {
+            SectionsBooksFragment.Listener l = (SectionsBooksFragment.Listener) getActivity();
+            l.onSectionClicked(mSections.get(position));
+        });
         return view;
-    }
-
-    private ArrayList<String> getSections(){
-        ArrayList<String> sections = new ArrayList<>();
-        List<NameBooks> nameBooksList = mBooksAPI.getNamesBooks();
-        for(NameBooks nameBooks : nameBooksList){
-            sections.add(nameBooks.getListName());
-        }
-        return  sections;
-
     }
 }
