@@ -6,7 +6,10 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import nytimes.chernousovaya.com.apinytimes.BooksAPI;
@@ -30,6 +33,19 @@ public class DataService extends Service {
         for (Result result : listResults) {
             Book newBook = new Book();
             newBook.setmUrl(result.getAmazonProductUrl());
+            String dateString = result.getbestsellersDate();
+            SimpleDateFormat format = new SimpleDateFormat();
+            format.applyPattern("yyyy-MM-dd");
+
+            Date date = null;
+            try {
+                date = format.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            newBook.setmBestsellerDate(date);
+            newBook.setmRank(result.getRank());
+            newBook.setmRankLastWeek(result.getrankLastWeek());
 
             BookDetail bookDetail = result.getBookDetails().get(0);
             newBook.setmTitle(bookDetail.getTitle());
@@ -43,19 +59,15 @@ public class DataService extends Service {
         return listBooks;
     }
 
+
     public class DataBinder extends Binder {
         public DataService getService() {
             return DataService.this;
         }
     }
 
-    public ArrayList<String> downloadSections() {
-        ArrayList<String> sectionsString = new ArrayList<>();
-        sections = mBooksAPI.getNamesBooks();
-        for (NameBooks nameBooks : sections) {
-            sectionsString.add(nameBooks.getListName());
-        }
-        return sectionsString;
+    public List<NameBooks> downloadNameOfBooks() {
+        return mBooksAPI.getNamesBooks();
     }
 
     @Override

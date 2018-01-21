@@ -1,5 +1,7 @@
 package nytimes.chernousovaya.com.nytimes.model;
 
+import java.util.Date;
+
 public class Book {
 
     private String mTitle;
@@ -13,6 +15,52 @@ public class Book {
     private String mPublisher;
 
     private String mUrl;
+
+    private int mRank;
+
+    private int mRankLastWeek;
+
+    private Date mBestsellerDate;
+
+    public Book(){
+
+    }
+
+    public Book(String mTitle, String mDescription, String mContributor, String mAuthor, String mPublisher, String mUrl, int mRank, int mRankLastWeek, Date mBestsellerDate) {
+        this.mTitle = mTitle;
+        this.mDescription = mDescription;
+        this.mContributor = mContributor;
+        this.mAuthor = mAuthor;
+        this.mPublisher = mPublisher;
+        this.mUrl = mUrl;
+        this.mRank = mRank;
+        this.mRankLastWeek = mRankLastWeek;
+        this.mBestsellerDate = mBestsellerDate;
+    }
+
+    public int getmRank() {
+        return mRank;
+    }
+
+    public void setmRank(int mRank) {
+        this.mRank = mRank;
+    }
+
+    public int getmRankLastWeek() {
+        return mRankLastWeek;
+    }
+
+    public void setmRankLastWeek(int mRankLastWeek) {
+        this.mRankLastWeek = mRankLastWeek;
+    }
+
+    public Date getmBestsellerDate() {
+        return mBestsellerDate;
+    }
+
+    public void setmBestsellerDate(Date mBestsellerDate) {
+        this.mBestsellerDate = mBestsellerDate;
+    }
 
     public String getmTitle() {
         return mTitle;
@@ -62,6 +110,7 @@ public class Book {
         this.mUrl = mUrl;
     }
 
+
     @Override
     public String toString() {
         return "Book{" +
@@ -71,6 +120,8 @@ public class Book {
                 ", mAuthor='" + mAuthor + '\'' +
                 ", mPublisher='" + mPublisher + '\'' +
                 ", mUrl='" + mUrl + '\'' +
+                ", mRank='" + mRank + '\'' +
+                ", mRankLastWeek='" + mRankLastWeek + '\'' +
                 '}';
     }
 }

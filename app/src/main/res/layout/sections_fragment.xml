@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ListView
         android:id="@+id/list_sections"
         android:layout_width="match_parent"
@@ -13,6 +14,6 @@
         android:background="#FFF"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp"
-        tools:listitem="@layout/section"></ListView>
+        tools:listitem="@layout/item_section"></ListView>
 
 </LinearLayout>

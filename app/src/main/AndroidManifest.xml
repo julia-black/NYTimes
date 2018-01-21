@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nytimes.chernousovaya.com.nytimes">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -31,6 +32,12 @@
         <activity
             android:name=".controller.activities.BooksActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".controller.activities.FavouriteBooksActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <provider
+            android:authorities="app.bookscontentprovider"
+            android:name=".controller.db.BooksContentProvider"></provider>
     </application>
 
 </manifest>

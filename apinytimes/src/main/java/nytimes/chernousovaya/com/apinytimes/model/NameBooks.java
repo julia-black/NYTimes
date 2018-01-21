@@ -70,8 +70,6 @@ public class NameBooks {
 
     @Override
     public String toString() {
-        return "NameBooks{" +
-                "listName='" + listName + '\'' +
-                '}';
+        return listName;
     }
 }
