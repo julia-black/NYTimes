@@ -4,48 +4,62 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.MotionEvent;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import nytimes.chernousovaya.com.nytimes.R;
-import nytimes.chernousovaya.com.nytimes.controller.adapters.BookItemAdapter;
+import nytimes.chernousovaya.com.nytimes.controller.adapters.BookAdapter;
 import nytimes.chernousovaya.com.nytimes.controller.db.BooksContentProvider;
 import nytimes.chernousovaya.com.nytimes.controller.db.ContactDbHelper;
 import nytimes.chernousovaya.com.nytimes.model.Book;
 
-public class FavouriteBooksActivity extends ParentActivity implements BookItemAdapter.Listener {
-    private static final String LOG = "FavouriteBooksActivity";
-    private BookItemAdapter mBookItemAdapter;
-    private ListView mListView;
+public class FavouriteBooksActivity extends ParentActivity implements BookAdapter.Listener {
+    private static final String LOG = FavouriteBooksActivity.class.getSimpleName();
+
+
+    @BindView(R.id.card_recycler_view_favourites)
+    RecyclerView mRecyclerView;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    private List<Book> mFavouriteBooks;
+
     private Cursor mCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite_books);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.favourite_books);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDrawer(toolbar);
-        super.getmDrawerResult().setSelection(2);
 
         mCursor = getContentResolver().query(BooksContentProvider.CONTENT_URI, null, null,
                 null, null);
+        mFavouriteBooks = getFavouriteBooksInDB();
+        initRecycleView();
+    }
 
-        List<Book> listBooks = getFavouriteBooksInDB();
-        mBookItemAdapter = new BookItemAdapter(this, listBooks);
-
-        mListView = (ListView) findViewById(R.id.list_favourites);
-        mListView.setAdapter(mBookItemAdapter);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        super.getmDrawerResult().setSelection(2);
     }
 
     private List<Book> getFavouriteBooksInDB() {
@@ -56,6 +70,7 @@ public class FavouriteBooksActivity extends ParentActivity implements BookItemAd
         String url;
         int rank;
         int rankOfLastWeek;
+        String description;
         String bestDate;
         while (mCursor.moveToNext()) {
             title = mCursor.getString(mCursor.getColumnIndex(ContactDbHelper.TITLE));
@@ -64,7 +79,8 @@ public class FavouriteBooksActivity extends ParentActivity implements BookItemAd
             rank = mCursor.getInt(mCursor.getColumnIndex(ContactDbHelper.RANK));
             rankOfLastWeek = mCursor.getInt(mCursor.getColumnIndex(ContactDbHelper.RANK_LAST_WEEK));
             bestDate = mCursor.getString(mCursor.getColumnIndex(ContactDbHelper.BESTSELLER_DATE));
-            book = new Book(title, author, "", "", "", url, rank, rankOfLastWeek, new Date(bestDate));
+            description = mCursor.getString(mCursor.getColumnIndex(ContactDbHelper.DESC));
+            book = new Book(title, description, "", author, "", url, rank, rankOfLastWeek, new Date(bestDate));
             listBooks.add(book);
         }
         return listBooks;
@@ -103,6 +119,41 @@ public class FavouriteBooksActivity extends ParentActivity implements BookItemAd
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    private void initRecycleView() {
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        RecyclerView.Adapter adapter = new BookAdapter(this, mFavouriteBooks);
+        mRecyclerView.setAdapter(adapter);
+
+        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            GestureDetector gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+            });
+
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+    }
+
 }
 
 

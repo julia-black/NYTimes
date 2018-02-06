@@ -16,28 +16,30 @@
             android:name=".controller.service.DataService"
             android:enabled="true"></service>
 
-
         <activity
             android:name=".controller.activities.LogoActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".controller.activities.HomePageActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".controller.activities.BooksActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".controller.activities.FavouriteBooksActivity"
+        <activity
+            android:name=".controller.activities.FavouriteBooksActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
 
         <provider
-            android:authorities="app.bookscontentprovider"
-            android:name=".controller.db.BooksContentProvider"></provider>
+            android:name=".controller.db.BooksContentProvider"
+            android:authorities="app.bookscontentprovider"></provider>
     </application>
 
 </manifest>

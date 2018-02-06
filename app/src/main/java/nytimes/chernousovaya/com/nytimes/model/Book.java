@@ -22,7 +22,7 @@ public class Book {
 
     private Date mBestsellerDate;
 
-    public Book(){
+    public Book() {
 
     }
 

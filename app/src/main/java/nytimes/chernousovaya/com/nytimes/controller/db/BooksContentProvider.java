@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 
 public class BooksContentProvider extends ContentProvider {
+
     public static final String DB_DATABASE_1 = "FAV_BOOKS.db";
     public static final int DB_VERSION = 2;
     public static final Uri CONTENT_URI = Uri.parse("content://app.bookscontentprovider/field");

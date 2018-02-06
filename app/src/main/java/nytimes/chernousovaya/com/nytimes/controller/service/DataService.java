@@ -20,11 +20,10 @@ import nytimes.chernousovaya.com.nytimes.model.Book;
 
 public class DataService extends Service {
 
-    private static final String LOG = "DataService";
+    private static final String LOG = DataService.class.getSimpleName();
 
     private BooksAPI mBooksAPI;
-    private List<NameBooks> sections = new ArrayList<>();
-    private DataBinder binder = new DataBinder();
+    private DataBinder mBinder = new DataBinder();
 
     public List<Book> downloadBooks(String nameOfSections) {
         List<Result> listResults = mBooksAPI.getListBooksByName(nameOfSections);
@@ -41,7 +40,7 @@ public class DataService extends Service {
             try {
                 date = format.parse(dateString);
             } catch (ParseException e) {
-                e.printStackTrace();
+                Log.e(LOG, "Error parsing date");
             }
             newBook.setmBestsellerDate(date);
             newBook.setmRank(result.getRank());
@@ -80,7 +79,7 @@ public class DataService extends Service {
 
     public IBinder onBind(Intent arg0) {
         Log.d(LOG, "Service onBind");
-        return binder;
+        return mBinder;
     }
 
     public boolean onUnbind(Intent intent) {

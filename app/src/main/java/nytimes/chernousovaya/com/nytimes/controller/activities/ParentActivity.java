@@ -7,35 +7,43 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import nytimes.chernousovaya.com.nytimes.R;
+import nytimes.chernousovaya.com.nytimes.controller.drawer.DrawerItem;
 
 public class ParentActivity extends AppCompatActivity {
-    private static final String LOG = "ParentActivity";
+    private static final String LOG = ParentActivity.class.getSimpleName();
     protected Drawer.Result mDrawerResult;
 
     public Drawer.Result getmDrawerResult() {
         return mDrawerResult;
     }
 
-
     protected void setDrawer(Toolbar toolbar) {
         Log.i(LOG, "setDrawer");
+        DrawerItem drawerItemBooks = new DrawerItem(BooksActivity.class);
+
+        DrawerItem drawerItemFav = new DrawerItem(FavouriteBooksActivity.class);
+
+        DrawerItem drawerItemHome = new DrawerItem(HomePageActivity.class);
+
         mDrawerResult = new Drawer()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withHeader(R.layout.drawer_header)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.home_page)
+
+                        drawerItemHome.withName(R.string.home_page)
                                 .withIcon(FontAwesome.Icon.faw_home).withIdentifier(0),
-                        new PrimaryDrawerItem().withName(R.string.books)
-                                .withIcon(FontAwesome.Icon.faw_book).withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.favourite_books)
+                        drawerItemBooks.withName(R.string.books).withIdentifier(1).withIcon(FontAwesome.Icon.faw_book).withIdentifier(1),
+                        drawerItemFav.withName(R.string.favourite_books)
                                 .withIcon(FontAwesome.Icon.faw_star).withIdentifier(4),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.setting)
@@ -54,14 +62,10 @@ public class ParentActivity extends AppCompatActivity {
                     public void onDrawerClosed(View drawerView) {
                     }
                 })
-                .withOnDrawerItemClickListener((parent, view, position, id, drawerItem) -> {
-                    if (drawerItem.getIdentifier() == 1) {
-                        toBooksActivity();
-                    } else if (drawerItem.getIdentifier() == 0) {
-                        toHomePageActivity();
-                    } else if (drawerItem.getIdentifier() == 4) {
-                        toFavouriteBooksActivity();
-                    }
+                .withOnDrawerItemClickListener((AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) -> {
+                    DrawerItem drawerItem1 = (DrawerItem) drawerItem;
+                    Intent intent = new Intent(ParentActivity.this, drawerItem1.getmActivityClass());
+                    startActivity(intent);
                 })
                 .build();
     }
@@ -73,20 +77,5 @@ public class ParentActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    protected void toBooksActivity() {
-        Intent intent = new Intent(ParentActivity.this, BooksActivity.class);
-        startActivity(intent);
-    }
-
-    protected void toFavouriteBooksActivity() {
-        Intent intent = new Intent(ParentActivity.this, FavouriteBooksActivity.class);
-        startActivity(intent);
-    }
-
-    protected void toHomePageActivity() {
-        Intent mIntent = new Intent(ParentActivity.this, HomePageActivity.class);
-        startActivity(mIntent);
     }
 }

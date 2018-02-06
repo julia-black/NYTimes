@@ -15,7 +15,7 @@ public class BookDetail {
     @SerializedName("contributor_note")
     private String contributorNote;
 
-    private int price;
+    private double price;
 
     @SerializedName("age_group")
     private String ageGroup;
@@ -68,11 +68,11 @@ public class BookDetail {
         this.contributorNote = contributorNote;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return this.price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

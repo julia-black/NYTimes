@@ -7,6 +7,7 @@ import android.provider.BaseColumns;
 
 public class ContactDbHelper extends SQLiteOpenHelper
         implements BaseColumns {
+
     public static final String TABLE_NAME = "fav_books";
     public static final String TITLE = "title";
     public static final String AUTHOR = "author";

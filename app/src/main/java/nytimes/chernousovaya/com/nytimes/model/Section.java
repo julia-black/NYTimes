@@ -3,9 +3,9 @@ package nytimes.chernousovaya.com.nytimes.model;
 import java.util.Date;
 
 public class Section {
-   private String mName;
-   private Date mOldestDate;
-   private Date mNewestDate;
+    private String mName;
+    private Date mOldestDate;
+    private Date mNewestDate;
 
     public Section(String mName, Date mOldestDate, Date mNewestDate) {
         this.mName = mName;
