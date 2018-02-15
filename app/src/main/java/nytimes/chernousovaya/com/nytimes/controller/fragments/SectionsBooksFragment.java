@@ -1,5 +1,7 @@
 package nytimes.chernousovaya.com.nytimes.controller.fragments;
 
+
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
@@ -21,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,9 +36,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import nytimes.chernousovaya.com.apinytimes.model.NameBooks;
 import nytimes.chernousovaya.com.nytimes.R;
+import nytimes.chernousovaya.com.nytimes.controller.activities.BooksActivity;
 import nytimes.chernousovaya.com.nytimes.controller.adapters.SectionRecyclerAdapter;
 import nytimes.chernousovaya.com.nytimes.model.Section;
-
 
 public class SectionsBooksFragment extends Fragment {
 
@@ -62,16 +65,33 @@ public class SectionsBooksFragment extends Fragment {
         Spinner getSpinnerSorting();
     }
 
+   @Override
+   public void onAttach(Context context) {
+       super.onAttach(context);
+
+       try {
+           mListener = (Listener) context;
+       } catch (ClassCastException e) {
+           throw new ClassCastException(context.toString()
+                   + " must implement Listener");
+       }
+       mSections = mListener.getNameBooksInActivity();
+       Log.i(LOG, mSections.size() + "");
+       editText = mListener.getEditText();
+       spinner = mListener.getSpinnerSorting();
+   }
+
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
         try {
-            mListener = (Listener) context;
+            mListener = (Listener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
+            throw new ClassCastException(activity.toString()
                     + " must implement Listener");
         }
         mSections = mListener.getNameBooksInActivity();
+        Log.i(LOG, mSections.size() + "");
         editText = mListener.getEditText();
         spinner = mListener.getSpinnerSorting();
     }
@@ -108,7 +128,6 @@ public class SectionsBooksFragment extends Fragment {
 
         spinner.setAdapter(adapter);
 
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> parent,
@@ -120,7 +139,6 @@ public class SectionsBooksFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
         initRecycleView();
     }
 
@@ -143,9 +161,18 @@ public class SectionsBooksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sections_fragment,
-                container, false);
-        ButterKnife.bind(this, view);
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            mSections =  mListener.getNameBooksInActivity();
+        }
+
+        View view = null;
+        try {
+            view = inflater.inflate(R.layout.sections_fragment,
+                    container, false);
+            ButterKnife.bind(this, view);
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
         return view;
     }
 
@@ -154,40 +181,47 @@ public class SectionsBooksFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(LOG, "onStop");
+        searchText("");
+    }
+
     private void sortSections(String sort) {
         currentSort = sort;
-        switch (sort) {
-            case "By name": {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    mSections.sort((section, t1) -> section.getListName().compareTo(t1.getListName()));
-                } else {
-                    sortOld(sort);
-                }
-                updateRecycleView();
-                break;
-            }
-            case "By newest date": {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    mSections.sort((section, t1) -> section.getNewestPublishedDate().compareTo(t1.getNewestPublishedDate()));
-                } else {
-                    sortOld(sort);
-                }
-                updateRecycleView();
-                break;
-            }
-            case "By oldest date": {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    mSections.sort((section, t1) -> section.getOldestPublishedDate().compareTo(t1.getOldestPublishedDate()));
-                } else {
-                    sortOld(sort);
-                }
-                updateRecycleView();
-                break;
-            }
-            default:
-                break;
-        }
-        mRecyclerView.smoothScrollToPosition(0);
+       switch (sort) {
+           case "By name": {
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                   mSections.sort((section, t1) -> section.getListName().compareTo(t1.getListName()));
+               } else {
+                   sortOld(sort);
+               }
+               updateRecycleView();
+               break;
+           }
+           case "By newest date": {
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                   mSections.sort((section, t1) -> section.getNewestPublishedDate().compareTo(t1.getNewestPublishedDate()));
+               } else {
+                   sortOld(sort);
+               }
+               updateRecycleView();
+               break;
+           }
+           case "By oldest date": {
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                   mSections.sort((section, t1) -> section.getOldestPublishedDate().compareTo(t1.getOldestPublishedDate()));
+               } else {
+                   sortOld(sort);
+               }
+               updateRecycleView();
+               break;
+           }
+           default:
+               break;
+       }
+       mRecyclerView.smoothScrollToPosition(0);
     }
 
     private void sortOld(String sort) {
@@ -244,7 +278,6 @@ public class SectionsBooksFragment extends Fragment {
 
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
                 View child = rv.findChildViewUnder(e.getX(), e.getY());
                 if (child != null && gestureDetector.onTouchEvent(e)) {
                     int position = rv.getChildAdapterPosition(child);

@@ -1,5 +1,6 @@
 package nytimes.chernousovaya.com.nytimes.controller.activities;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ComponentName;
 import android.content.ContentValues;
@@ -9,9 +10,11 @@ import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.EditText;
@@ -51,6 +54,9 @@ public class BooksActivity extends ParentActivity implements
     @BindView(R.id.search)
     EditText editText;
 
+    @BindView(R.id.sort_layout)
+    ConstraintLayout sortLayout;
+
     @BindView(R.id.spinnerSorting)
     Spinner spinner;
 
@@ -58,7 +64,6 @@ public class BooksActivity extends ParentActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.i(LOG, "onCreate");
         super.onCreate(savedInstanceState);
-
         try {
             if (!hasConnection()) {
                 throw new NullPointerException("Error connections");
@@ -67,7 +72,7 @@ public class BooksActivity extends ParentActivity implements
                 mServiceConnection = new ServiceConnection() {
                     public void onServiceConnected(ComponentName name, IBinder binder) {
 
-                        Log.d(LOG, "MainActivity onServiceConnected");
+                        Log.d(LOG, "onServiceConnected");
                         mService = ((DataService.DataBinder) binder).getService();
                         mSections = mService.downloadNameOfBooks();
                         Log.d(LOG, "" + mSections.size());
@@ -83,7 +88,7 @@ public class BooksActivity extends ParentActivity implements
                     }
 
                     public void onServiceDisconnected(ComponentName name) {
-                        Log.d(LOG, "MainActivity onServiceDisconnected");
+                        Log.d(LOG, "onServiceDisconnected");
                         mBound = false;
                     }
                 };
@@ -96,12 +101,19 @@ public class BooksActivity extends ParentActivity implements
         } finally {
             mSections = new ArrayList<>();
         }
-
         setContentView(R.layout.activity_books);
         ButterKnife.bind(this);
 
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.books);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            sortLayout.setElevation(2);
+            sortLayout.setTranslationZ(5);
+
+            toolbar.setElevation(4);
+            toolbar.setTranslationZ(5);
+            toolbar.setTransitionName("actionBar");
+        }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDrawer(toolbar);
@@ -118,8 +130,15 @@ public class BooksActivity extends ParentActivity implements
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.i(LOG, "onNewIntent");
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i(LOG, "onDestroy");
         if (mBound) {
             unbindService(mServiceConnection);
             mBound = false;
@@ -128,8 +147,32 @@ public class BooksActivity extends ParentActivity implements
 
     @Override
     protected void onStart() {
+        Log.i(LOG, "onDestroy");
         super.onStart();
         super.getmDrawerResult().setSelection(1);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.i(LOG, "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(LOG, "onStop");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!mBound) {
+            bindService(mIntent, mServiceConnection, 0);
+            mBound = true;
+        }
+        Log.i(LOG, "onResume");
     }
 
     @Override

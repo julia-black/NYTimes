@@ -45,9 +45,10 @@ public class ParentActivity extends AppCompatActivity {
                         drawerItemBooks.withName(R.string.books).withIdentifier(1).withIcon(FontAwesome.Icon.faw_book).withIdentifier(1),
                         drawerItemFav.withName(R.string.favourite_books)
                                 .withIcon(FontAwesome.Icon.faw_star).withIdentifier(4),
-                        new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName(R.string.setting)
-                                .withIcon(FontAwesome.Icon.faw_cog).withIdentifier(3)
+                        new DividerDrawerItem()
+
+                      // new PrimaryDrawerItem().withName(R.string.setting)
+                      //         .withIcon(FontAwesome.Icon.faw_cog).withIdentifier(3)
                 )
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override

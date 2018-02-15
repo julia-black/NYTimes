@@ -1,5 +1,6 @@
 package nytimes.chernousovaya.com.nytimes.controller.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityRecord;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -73,8 +75,23 @@ public class ListBooksFragment extends Fragment {
         mListBooks = mListener.getCurrentBooksInActivity(mNameOfSection);
         editText = mListener.getEditText();
         spinner = mListener.getSpinnerSorting();
-
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (ListBooksFragment.Listener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement Listener");
+        }
+        mNameOfSection = getArguments().getString("nameOfSection", "");
+        mListBooks = mListener.getCurrentBooksInActivity(mNameOfSection);
+        editText = mListener.getEditText();
+        spinner = mListener.getSpinnerSorting();
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -119,6 +136,13 @@ public class ListBooksFragment extends Fragment {
             }
         });
         initRecycleView();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(LOG, "onStop");
+        searchText("");
     }
 
     @Override

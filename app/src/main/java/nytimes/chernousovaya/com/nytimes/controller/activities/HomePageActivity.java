@@ -1,12 +1,14 @@
 package nytimes.chernousovaya.com.nytimes.controller.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +29,6 @@ public class HomePageActivity extends ParentActivity {
 
         setContentView(R.layout.activity_home_page);
         ButterKnife.bind(this);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDrawer(toolbar);
