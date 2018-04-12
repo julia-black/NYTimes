@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,9 @@ public class HomePageActivity extends ParentActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.view_all)
+    Button buttonViewAll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(LOG, "onCreate");
@@ -32,7 +36,7 @@ public class HomePageActivity extends ParentActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDrawer(toolbar);
-        setClickListeners();
+        buttonViewAll.setOnClickListener(view -> toBooksActivity());
     }
 
     @Override
@@ -55,10 +59,10 @@ public class HomePageActivity extends ParentActivity {
         super.onDestroy();
     }
 
-    private void setClickListeners() {
-        TextView v = (TextView) findViewById(R.id.books);
-        v.setOnClickListener(view -> toBooksActivity());
-    }
+   // private void setClickListeners() {
+   //     TextView v = (TextView) findViewById(R.id.books);
+   //     v.setOnClickListener(view -> toBooksActivity());
+   // }
 
     protected void toBooksActivity() {
         Intent intent = new Intent(HomePageActivity.this, BooksActivity.class);
