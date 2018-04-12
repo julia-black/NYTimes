@@ -44,12 +44,10 @@ public class FavouriteBooksActivity extends ParentActivity implements BookAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite_books);
         ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.favourite_books);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDrawer(toolbar);
-
         mCursor = getContentResolver().query(BooksContentProvider.CONTENT_URI, null, null,
                 null, null);
         mFavouriteBooks = getFavouriteBooksInDB();
