@@ -3,35 +3,29 @@ package nytimes.chernousovaya.com.nytimes.controller.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
 import nytimes.chernousovaya.com.nytimes.R;
 
 public class LogoActivity extends Activity {
+    private static final String LOG = LogoActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
-        final Thread logoTimer = new Thread(){
-            public void run(){
+        final Thread logoTimer = new Thread() {
+            public void run() {
                 try {
-                    int logoTimer = 0;
-                    while(logoTimer < 5000){
-                        sleep(100);
-                        logoTimer = logoTimer + 100;
-                    }
-                    toHomePageActivity();
-                }
-                catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-                finally {
+                    sleep(5000);
+                    startActivity(new Intent(LogoActivity.this, HomePageActivity.class));
+                } catch (InterruptedException e) {
+                    Log.e(LOG, "Error in logoThread");
+                } finally {
                     finish();
                 }
             }
         };
         logoTimer.start();
-    }
-    public void toHomePageActivity(){
-        Intent intent = new Intent(LogoActivity.this, HomePageActivity.class);
-        startActivity(intent);
     }
 }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nytimes.chernousovaya.com.nytimes">
+    package="nytimes.chernousovaya.com.nytimes"
+    android:name="android.support.multidex.MultiDexApplication">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,20 +13,34 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.activities.LogoActivity"
-            android:screenOrientation="reversePortrait">
+        <service
+            android:name=".controller.service.DataService"
+            android:enabled="true"></service>
+
+        <activity
+            android:name=".controller.activities.LogoActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.activities.HomePageActivity"
-            android:screenOrientation="reversePortrait">
-        </activity>
-        <activity android:name=".controller.activities.BooksActivity"
-            android:screenOrientation="reversePortrait">
-        </activity>
+        <activity
+            android:name=".controller.activities.HomePageActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".controller.activities.BooksActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".controller.activities.FavouriteBooksActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
+
+        <provider
+            android:name=".controller.db.BooksContentProvider"
+            android:authorities="app.bookscontentprovider"></provider>
     </application>
 
 </manifest>

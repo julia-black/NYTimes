@@ -5,6 +5,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
+import java.util.List;
+
 import nytimes.chernousovaya.com.apinytimes.model.ListBooks;
 import nytimes.chernousovaya.com.apinytimes.model.NameBooks;
 import nytimes.chernousovaya.com.apinytimes.model.Result;
@@ -13,9 +17,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.io.IOException;;
-import java.util.List;
 
 public class BooksAPI {
 
@@ -37,29 +38,24 @@ public class BooksAPI {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         mRootObject = getRootObject();
-       // if(mRootObject.getNamesBooks().size() != 0) {
-       //     List<Result> list = getListBooksByName(mRootObject.getNamesBooks().get(0).getListName());
-       //    // Log.i(LOG, list.get(0).getBook_details().get(0).getTitle());
-       // }
     }
 
-    public RootObject getRootObject(){
+    public RootObject getRootObject() {
         Call<RootObject> call = mNYTimes.getNames(KEY);
         Response<RootObject> response;
         RootObject obj = null;
         try {
             response = call.execute();
             obj = response.body();
-           // Log.i(LOG, obj.getNamesBooks().size() +"");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(LOG, "Error executing request getRootObject");
         }
         return obj;
     }
 
     //Получить наименования групп книг
-    public List<NameBooks> getNamesBooks(){
+    public List<NameBooks> getNamesBooks() {
         return mRootObject.getNamesBooks();
     }
 
@@ -72,7 +68,7 @@ public class BooksAPI {
             obj = response.body();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(LOG, "Error executing request getNameBooks");
         }
         return obj.getResults();
     }

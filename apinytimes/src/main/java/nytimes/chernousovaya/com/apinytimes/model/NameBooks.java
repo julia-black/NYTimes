@@ -1,41 +1,75 @@
 package nytimes.chernousovaya.com.apinytimes.model;
 
-public class NameBooks
-{
-    private String list_name;
+import com.google.gson.annotations.SerializedName;
 
-    private String display_name;
+public class NameBooks {
+    @SerializedName("list_name")
+    private String listName;
 
-    private String list_name_encoded;
+    @SerializedName("display_name")
+    private String displayName;
 
-    private String oldest_published_date;
+    @SerializedName("list_name_encoded")
+    private String listNameEncoded;
 
-    private String newest_published_date;
+    @SerializedName("oldest_published_date")
+    private String oldestPublishedDate;
+
+    @SerializedName("newest_published_date")
+    private String newestPublishedDate;
 
     private String updated;
 
-    public String getUpdated() { return this.updated; }
+    public String getUpdated() {
+        return this.updated;
+    }
 
-    public void setUpdated(String updated) { this.updated = updated; }
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
 
-    public String getListName() { return this.list_name; }
+    public String getListName() {
+        return this.listName;
+    }
 
-    public void setListName(String list_name) { this.list_name = list_name; }
+    public void setListName(String listName) {
+        this.listName = listName;
+    }
 
-    public String getDisplayName() { return this.display_name; }
+    public String getDisplayName() {
+        return this.displayName;
+    }
 
-    public void setDisplayName(String display_name) { this.display_name = display_name; }
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
-    public String getListNameEncoded() { return this.list_name_encoded; }
+    public String getListNameEncoded() {
+        return this.listNameEncoded;
+    }
 
-    public void setListNameEncoded(String list_name_encoded) { this.list_name_encoded = list_name_encoded; }
+    public void setListNameEncoded(String listNameEncoded) {
+        this.listNameEncoded = listNameEncoded;
+    }
 
-    public String getOldestPublishedDate() { return this.oldest_published_date; }
+    public String getOldestPublishedDate() {
+        return this.oldestPublishedDate;
+    }
 
-    public void setOldestPublishedDate(String oldest_published_date) { this.oldest_published_date = oldest_published_date; }
+    public void setOldestPublishedDate(String oldestPublishedDate) {
+        this.oldestPublishedDate = oldestPublishedDate;
+    }
 
-    public String getNewestPublishedDate() { return this.newest_published_date; }
+    public String getNewestPublishedDate() {
+        return this.newestPublishedDate;
+    }
 
-    public void setNewestPublishedDate(String newest_published_date) { this.newest_published_date = newest_published_date; }
+    public void setNewestPublishedDate(String newestPublishedDate) {
+        this.newestPublishedDate = newestPublishedDate;
+    }
 
+    @Override
+    public String toString() {
+        return listName;
+    }
 }

@@ -10,7 +10,8 @@ public class RootObject {
 
     private String copyright;
 
-    private int num_results;
+    @SerializedName("num_results")
+    private int numResults;
 
     @SerializedName("results")
     private ArrayList<NameBooks> namesBooks;
@@ -22,6 +23,7 @@ public class RootObject {
     public void setNamesBooks(ArrayList<NameBooks> namesBooks) {
         this.namesBooks = namesBooks;
     }
+
     public String getStatus() {
         return this.status;
     }
@@ -29,6 +31,7 @@ public class RootObject {
     public void setStatus(String status) {
         this.status = status;
     }
+
     public String getCopyright() {
         return this.copyright;
     }
@@ -36,12 +39,13 @@ public class RootObject {
     public void setCopyright(String copyright) {
         this.copyright = copyright;
     }
+
     public int getNumResults() {
-        return this.num_results;
+        return this.numResults;
     }
 
-    public void setNumResults(int num_results) {
-        this.num_results = num_results;
+    public void setNumResults(int numResults) {
+        this.numResults = numResults;
     }
 
 }
